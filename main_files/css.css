@@ -1,0 +1,155 @@
+/*---ȫʽ---*/
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{
+margin:0;
+padding:0;
+border:0;  
+font-size:12px;
+line-height:16pt;
+}
+td,a{ font-size:13px;font-family:Arial; line-height:16pt; color:#333333}
+
+/* task*/
+
+a.company_taskbutton{
+  cursor: pointer;
+  text-align:left;
+  float:left;
+  padding:4px 10px 0px 9px;
+  width:80px;
+  height:21px;
+  font-size:13px;
+  color:#0350A8;
+  text-decoration:none;
+  background: url(../images/task_refresh.jpg) no-repeat;
+}
+  
+td.company_task_topbg{
+  background:url(../images/company_task_topbg.jpg) no-repeat top;
+  height:90px;
+  }
+td.company_task_text1{
+  font-size:13px;
+  color:#E50005;
+  text-indent:12px;
+  }
+td.company_task_contentbg{
+  background:url(../images/task_content_bg.jpg) repeat-x top;
+  }
+div.task_contenttext_dangan{
+  margin:0px 8px 20px 8px ;
+  font-size:13px;
+  color:#005DA3;
+  padding-top:4px;
+  text-indent:26px;
+  height:24px;
+  background:url(../images/task_dangan_button.jpg) top left no-repeat;
+  border:1px solid #ABCAE6;
+  }
+div.task_contenttext_oa{
+  margin:0px 8px 20px 8px ;
+  font-size:13px;
+  color:#005DA3;
+  padding-top:4px;
+  text-indent:26px;
+  height:24px;
+  background:url(../images/task_oa_button.jpg) top left no-repeat;
+  border:1px solid #ABCAE6;
+  }
+div.task_contenttext_mail{
+  margin:0px 8px 20px 8px ;
+  font-size:13px;
+  color:#005DA3;
+  padding-top:4px;
+  text-indent:26px;
+  height:24px;
+  background:url(../images/task_mail_button.jpg) top left no-repeat;
+  border:1px solid #ABCAE6;
+  }
+div.task_contenttext_left{
+  width:78px;
+  text-align:left;
+  float:left;
+  margin:0 0 0 0;
+  padding:0 0 0 0;
+}
+div.task_contenttext_left_2{
+  width:100px;
+  text-align:left;
+  float:left;
+  margin:0 0 0 0;
+  padding:0 0 0 0;
+}
+div.task_contenttext_right{
+  text-align:left;
+  float:left;
+  margin:0 0 0 0;
+  padding:0 0 0 0;
+}
+a.task_contenttext_system{
+  font-size:13px;
+  color:#005DA3;
+  text-decoration:none;
+  }
+a.task_contenttext_system:hover{
+  font-size:13px;
+  color:#ff0000;
+  text-decoration:none;
+  }
+  
+a.company_task_contenttext_red{
+  font-size:13px;
+  color:#E50005;
+  font-family:Arial;
+  text-decoration:none;
+  font-weight:bold;
+  }
+a.company_taskbutton{
+  cursor: pointer;
+  text-align:left;
+  float:left;
+  padding:1px 0px 0px 9px;
+  width:60px;
+  height:21px;
+  font-size:13px;
+  color:#0350A8;
+  text-decoration:none;
+  background: url(../images/task_refresh.jpg) no-repeat;
+}
+
+a.task_contenttext_1{
+  font-size:13px;
+  color:#005DA3;
+  text-indent:5px;
+  border-bottom:1px solid #ABCAE6;
+  }
+a.task_contenttext_1:hover{
+  color: #36B5CB;
+  }
+/*20090802*/
+table.channel_bigtable{
+  border:1px solid #6AB4E3;
+  width:449;
+  }
+td.channel_tab_text{
+  color:#3060C6;
+  font-size:13px;
+  font-weight:bold;
+  text-indent:4px;
+  }
+td.channel_tab_bg{
+  border-bottom:1px solid #6AB4E3;
+  height:26px;
+  background: url(../images/channel_tab_bg.jpg) repeat-x top;
+  }
+td.task_bottom_height{
+  height:22px;
+ }
+td.task_list{
+  background: url(../images/task_list1.jpg) no-repeat top;
+  width:20;
+}
+td.task_tab_list{
+  background: url(../images/channel_tab_list_task.jpg) no-repeat top;
+  width:30;
+  height:26;
+}
