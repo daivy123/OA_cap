@@ -1,0 +1,17 @@
+{
+  "result": {
+    "detail": "0",
+    "appId": "CBPM_HYHR",
+    "name": "行业HR",
+    "categories": [
+      {
+        "total": "0",
+        "name": "待办",
+        "code": "1",
+        "tasks": [],
+        "url": "http://ehr.cbpmc.cbpm/NCSsoServlet?appId=CBPM_HYHR"
+      }
+    ],
+    "url": "http://uap.cdyc.cbpm/toolkit/hr.servlet?appId=CBPM_HYHR"
+  }
+}

@@ -1,830 +1,499 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- saved from url=(0042)http://uap.cdyc.cbpm/task/main.do?random=1 -->
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Pragma" content="no-cache">
-
-<meta http-equiv="refresh" content="900">
-<link type="text/css" rel="stylesheet" href="./main_files/css.css">
-<link type="text/css" rel="stylesheet" href="./main_files/css(1).css">
-<script src="./main_files/yahoo-min.js.下载"></script>
-<script src="./main_files/event-min.js.下载"></script>
-<script src="./main_files/connection-min.js.下载"></script>
-<script src="./main_files/json-min.js.下载"></script>
-<title>main</title>
-</head>
-<body>
-<script language="javascript">
-setInterval("window.location.reload()",1200000);
-</script>
-<script language="javascript">
-var tokenParam = "tokenId=" + escape(readCookie("iPlanetDirectoryPro"));
-var authurl = tokenParam + "&authwsdl=" + escape("http://uap.cdyc.cbpm/eeip_iam/services/validate");
-
-function formUrl(url){
-	var newurl;
-	if(url.indexOf("?") > 0 ){
-	  newurl = url + "&" + authurl ;
-	} else {
-	  newurl = url + "?" + authurl ;
-	}
-	return newurl;
-}
-function readCookie(name)    
-{    
-  var cookieValue = "";    
-  var search = name + "=";   
-  if(document.cookie.length > 0)   
-  {     
-    offset = document.cookie.indexOf(search);    
-    if (offset != -1)   
-    {    
-      offset += search.length;   
-      end = document.cookie.indexOf(";", offset);   
-      if (end == -1) end = document.cookie.length;   
-      cookieValue = unescape(document.cookie.substring(offset, end))   
-    }   
-  }   
-  return cookieValue;   
-}  
-
-function showDetailMsg(i,eleId1,eleId2){
-	selectTab(i,eleId1,eleId2);
-}
-
-function selectTab(i,eleId1,eleId2){
-	switch(i){
-		case 1:
-			document.getElementById(eleId1).style.display="block";
-			document.getElementById(eleId2).style.display="none";
-			break;
-		case 2:
-			document.getElementById(eleId1).style.display="none";
-			document.getElementById(eleId2).style.display="block";
-			break;
-	}
-}
-</script>
-
-<script language="javascript">
-	var handleIframeSuccess = function(id){
-	try{
-
-		var frmid = "frm_"+id;
-		var frm = document.getElementById(frmid);
-		if(frm == null) {
-			return;
-		}
-		var frmdoc = frm.contentDocument || frm.contentWindow.document;
-		if(frmdoc == null) {
-			return;
-		}
-		if(frmdoc.body == null) {
-			return;
-		}
-		if(frmdoc.body.innerHTML == null) {
-			return;
-		}
-		var jsonText = frmdoc.body.innerHTML.replace(/<PRE>/,"").replace(/<\/PRE>/,"");
-		jsonText = jsonText.replace(/<pre>/,"").replace(/<\/pre>/,"");
-		if( jsonText.indexOf("result") == -1) {
-			return;
-		} 
-
-		var results = null;
-
-		try {
-			results =  YAHOO.lang.JSON.parse(jsonText);
-		} catch( e) {
-			return;
-		}
-
-	if(results != null ) {
-
-		var categoriesArray = [];
-		var taskArray = [];
-		var divSummary = document.getElementById(results.result.appId+"summary");
-		var divDetail = document.getElementById(results.result.appId+"detail");
-		var divDetailInnerHTML = "";
-		var divSummaryInnerHTML = "";
-		categoriesArray = results.result.categories;
-		if(results.result.detail==1){
-			divSummaryInnerHTML = "<div class=\"task_contenttext_left_2\"><a href=\""+ results.result.url +"\" target=\"_blank\" class=\"task_contenttext_system\">"+ results.result.name +"</a></div>";
-			divSummaryInnerHTML += "<div class=\"task_contenttext_right\"> ";
-			for(var j=0;j<categoriesArray.length;j++){
-				divSummaryInnerHTML += categoriesArray[j].name + "<a class=\"company_task_contenttext_red\" href=\""+ categoriesArray[j].url +"\" target=\"_blank\">" + categoriesArray[j].total + "</a>件.";
-			}
-			divSummaryInnerHTML += "<a onclick=\"showDetailMsg(2,'"+results.result.appId+"summary"+"','"+results.result.appId+"detail"+"')\" style='cursor:hand'><img src=\"images/list_open.gif\" name=\"Imagelist\" border=\"0\" id=\"Imagelist\"/></a></div>";
-			
-			divDetailInnerHTML = "<div class=\"task_contenttext_left_2\"><a href=\""+ results.result.url +"\" target=\"_blank\" class=\"task_contenttext_system\">"+ results.result.name +"</a></span>";
-			divDetailInnerHTML += "<div class=\"task_contenttext_right\"> ";
-			for(var m=0;m<categoriesArray.length;m++){
-				divDetailInnerHTML += categoriesArray[m].name + "<a class=\"company_task_contenttext_red\" href=\""+ categoriesArray[m].url +"\" target=\"_blank\">" + categoriesArray[m].total + "</a>件.";
-			}
-			divDetailInnerHTML += "<a onclick=\"showDetailMsg(1,'"+results.result.appId+"summary"+"','"+results.result.appId+"detail"+"')\" style='cursor:hand'><img src=\"images/list_close.gif\" name=\"Imagelist\" border=\"0\" id=\"Imagelist\"/></a></div>";
-			divDetailInnerHTML += "<ul>";
-			for(var k=0;k<categoriesArray.length;k++){
-				taskArray = categoriesArray[k].tasks;
-				for(var l=0;l<taskArray.length;l++){
-					divDetailInnerHTML += "<li><a href=\""+ formUrl(taskArray[l].link) + "\" class=\"task_contenttext_1\">"+ taskArray[l].title +"</a></li>";
-				}
-			}
-			divDetailInnerHTML += "</ul>";
-			divDetail.innerHTML = divDetailInnerHTML;
-			divSummary.innerHTML = divSummaryInnerHTML;
-		}else{
-			var str = "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-			str += "<td><div class=\"task_contenttext_left_2\"><a href=\""+ formUrl(results.result.url) +"\" target=\"_blank\" class=\"task_contenttext_system\">"+ results.result.name +"</a></div></td>";
-			str += "<td><div class=\"task_contenttext_right\"> ";
-			if(categoriesArray)
-			for(var z=0;z<categoriesArray.length;z++){
-				str += categoriesArray[z].name + "<a class=\"company_task_contenttext_red\" href=\""+ formUrl(results.result.url) +"\" target=\"_blank\">" + categoriesArray[z].total + "</a>件.";
-			}
-			str += "</div></td></tr></table>";
-			divSummary.innerHTML = str;
-		}
-	}else{
-		divSummaryInnerHTML = "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-		divSummaryInnerHTML += "<td><div class=\"task_contenttext_left\"><a href=\""+ formUrl(appurl) +"\" target=\"_blank\" class=\"task_contenttext_system\">"+ appname +"</a></div></td>";
-		divSummaryInnerHTML += "<td><div class=\"task_contenttext_right\">未能获取任务信息，请与管理员联系！</div></td>";
-			//divDetail.innerHTML = divDetailInnerHTML;
-			divSummary.innerHTML = divSummaryInnerHTML;
-	}
-	} catch(e) {
-	}
-}
-</script>
-
-<table border="0" cellspacing="0" cellpadding="0" class="channel_bigtable">
-	<tbody><tr>
-		<td class="channel_tab_bg">
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tbody><tr>
-				<td width="30" class="task_tab_list" height="26"></td>
-				<td class="channel_tab_text">任务中心</td>
-			</tr>
-		</tbody></table>
-		</td>
-	</tr>
-
-	<tr>
-		<td>
-         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border: 1px solid #ffffff;">
-			<tbody><tr>
-				<td valign="top" class="company_task_topbg">
-				<table width="447" border="0" cellspacing="0" cellpadding="0">
-					<tbody><tr>
-						<td width="23" height="25">&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td class="task_list" width="20">&nbsp;</td>
-						<td>
-						<table border="0" cellspacing="0" cellpadding="0" class="task_toptext">
-							<tbody><tr>
-								<td class="company_task_text1">您有以下未办事宜!&nbsp;&nbsp;</td>
-								<td><a href="javascript:location.reload();" class="company_taskbutton">任务刷新</a></td>
-							</tr>
-						</tbody></table>
-						</td>
-					</tr>
-				</tbody></table>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top" class="company_task_contentbg">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tbody><tr>
-						<td>
-							
-							
-							
-							<div id="container1" class="">
-							
-							
-							
-							<div id="CBPM_OAsummary" class="task_contenttext_dangan"></div>
-							<div id="CBPM_OAdetail" class="task_contenttext_dangan" style="display: none;"></div>
-							
-							
-							</div>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							<div id="container2" class="">
-							
-							
-							
-							<div id="CBPM_ARCHIVESsummary" class="task_contenttext_dangan"></div>
-							<div id="CBPM_ARCHIVESdetail" class="task_contenttext_dangan" style="display: none;"></div>
-							
-							
-							</div>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							<div id="container3" class="">
-							
-							
-							
-							<div id="CBPM_BCPPORTALsummary" class="task_contenttext_dangan"></div>
-							<div id="CBPM_BCPPORTALdetail" class="task_contenttext_dangan" style="display: none;"></div>
-							
-							
-							</div>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							<div id="container4" class="">
-							
-							
-							
-							<div id="CBPM_QUARKsummary" class="task_contenttext_dangan"></div>
-							<div id="CBPM_QUARKdetail" class="task_contenttext_dangan" style="display: none;"></div>
-							
-							
-							</div>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							<div id="container5" class="">
-							
-							
-							
-							<div id="CBPM_HYHRsummary" class="task_contenttext_dangan"></div>
-							<div id="CBPM_HYHRdetail" class="task_contenttext_dangan" style="display: none;"></div>
-							
-							
-							</div>
-							
-							
-							
-							
-							
-							
-							</td>
-					</tr>
-					<tr>
-						<td class="task_bottom_height">&nbsp;</td>
-					</tr>
-				</tbody></table>
-				</td>
-			</tr>
-		</tbody></table>
-		</td>
-	</tr>
-</tbody></table>
-
-
-
-
-<script language="javascript">
-
-function loadfrm(id){
-	var frmid = "frm_"+id;
-	var frm = document.getElementById(frmid);
-	if(frm == null) {
-		return;
-	}
-	frm.src="detail.do?app="+id+"&random=6";
-
-}
-function closetimeoutfrm(id,appname,appurl){
-	var frmid = "frm_"+id;
-	var frm = document.getElementById(frmid);
-	if(frm == null) {
-		return;
-	}
-	if(!frm.readyState) {
-		return;
-	}
-	if(frm.readyState == 'complete') {
-
-		var frmdoc = frm.contentDocument || frm.contentWindow.document;
-		if(frmdoc == null) {
-			return;
-		}
-		if(frmdoc.body == null) {
-			return;
-		}
-		if(frmdoc.body.innerHTML == null) {
-			return;
-		}
-		var jsonText = frmdoc.body.innerHTML;
-		var results = null;
-		if( jsonText.indexOf('{"result') != -1) {
-			return;
-		}
-	}
-
-	frm.src="about:blank";
-	var divSummary = document.getElementById(id+"summary");
-	divSummaryInnerHTML = "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-	divSummaryInnerHTML += "<td><div class=\"task_contenttext_left\"><a href=\""+ appurl +"\" target=\"_blank\" class=\"task_contenttext_system\">"+ appname +"</a></div></td>";
-	divSummaryInnerHTML += "<td><div class=\"task_contenttext_right\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未能获取任务信息，请与管理员联系！</div></td></tr></table>";
-	divSummary.innerHTML = divSummaryInnerHTML;
-}
-var g_count = 0;
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<iframe name="frm_CBPM_OA" id="frm_CBPM_OA" src="./main_files/detail.html" width="0" height="0" onload="handleIframeSuccess(&#39;CBPM_OA&#39;);"></iframe>
-
-<script language="javascript">
-setTimeout("loadfrm('CBPM_OA')", 200*g_count);
-setTimeout("closetimeoutfrm('CBPM_OA','OA系统','http://oa.cdyc.cbpm')", 10000 + 2000*g_count);
-g_count++;
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<iframe name="frm_CBPM_ARCHIVES" id="frm_CBPM_ARCHIVES" src="./main_files/detail(1).html" width="0" height="0" onload="handleIframeSuccess(&#39;CBPM_ARCHIVES&#39;);"></iframe>
-
-<script language="javascript">
-setTimeout("loadfrm('CBPM_ARCHIVES')", 200*g_count);
-setTimeout("closetimeoutfrm('CBPM_ARCHIVES','档案系统','http://uap.cdyc.cbpm/toolkit/archives.servlet?appId=CBPM_ARCHIVES&common=true')", 10000 + 2000*g_count);
-g_count++;
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<iframe name="frm_CBPM_HYHR" id="frm_CBPM_HYHR" src="./main_files/detail(2).html" width="0" height="0" onload="handleIframeSuccess(&#39;CBPM_HYHR&#39;);"></iframe>
-
-<script language="javascript">
-setTimeout("loadfrm('CBPM_HYHR')", 200*g_count);
-setTimeout("closetimeoutfrm('CBPM_HYHR','行业HR','http://uap.cdyc.cbpm/toolkit/hr.servlet?appId=CBPM_HYHR')", 10000 + 2000*g_count);
-g_count++;
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<iframe name="frm_CBPM_BCPPORTAL" id="frm_CBPM_BCPPORTAL" src="./main_files/detail(3).html" width="0" height="0" onload="handleIframeSuccess(&#39;CBPM_BCPPORTAL&#39;);"></iframe>
-
-<script language="javascript">
-setTimeout("loadfrm('CBPM_BCPPORTAL')", 200*g_count);
-setTimeout("closetimeoutfrm('CBPM_BCPPORTAL','协同系统','http://uap.cdyc.cbpm/toolkit/bcpportal.servlet?appId=CBPM_BCPPORTAL')", 10000 + 2000*g_count);
-g_count++;
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<iframe name="frm_CBPM_QUARK" id="frm_CBPM_QUARK" src="./main_files/detail(4).html" width="0" height="0" onload="handleIframeSuccess(&#39;CBPM_QUARK&#39;);"></iframe>
-
-<script language="javascript">
-setTimeout("loadfrm('CBPM_QUARK')", 200*g_count);
-setTimeout("closetimeoutfrm('CBPM_QUARK','邮件系统','http://uap.cdyc.cbpm/toolkit/mail.servlet?appId=CBPM_QUARK')", 10000 + 2000*g_count);
-g_count++;
-</script>
-
-
-
-
-
-
- 
-</body></html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="refresh" content="900" />
+    <link type="text/css" rel="stylesheet" href="./main_files/css.css" />
+    <link type="text/css" rel="stylesheet" href="./main_files/css(1).css" />
+    <script src="./main_files/yahoo-min.js.下载"></script>
+    <script src="./main_files/event-min.js.下载"></script>
+    <script src="./main_files/connection-min.js.下载"></script>
+    <script src="./main_files/json-min.js.下载"></script>
+    <title>main</title>
+  </head>
+  <body>
+    <script language="javascript">
+      setInterval("window.location.reload()", 1200000);
+    </script>
+    <script language="javascript">
+      var tokenParam = "tokenId=" + escape(readCookie("iPlanetDirectoryPro"));
+      var authurl =
+        tokenParam +
+        "&authwsdl=" +
+        escape("http://uap.cdyc.cbpm/eeip_iam/services/validate");
+      function formUrl(url) {
+        var newurl;
+        if (url.indexOf("?") > 0) {
+          newurl = url + "&" + authurl;
+        } else {
+          newurl = url + "?" + authurl;
+        }
+        return newurl;
+      }
+      function readCookie(name) {
+        var cookieValue = "";
+        var search = name + "=";
+        if (document.cookie.length > 0) {
+          offset = document.cookie.indexOf(search);
+          if (offset != -1) {
+            offset += search.length;
+            end = document.cookie.indexOf(";", offset);
+            if (end == -1) end = document.cookie.length;
+            cookieValue = unescape(document.cookie.substring(offset, end));
+          }
+        }
+        return cookieValue;
+      }
+      function showDetailMsg(i, eleId1, eleId2) {
+        selectTab(i, eleId1, eleId2);
+      }
+      function selectTab(i, eleId1, eleId2) {
+        switch (i) {
+          case 1:
+            document.getElementById(eleId1).style.display = "block";
+            document.getElementById(eleId2).style.display = "none";
+            break;
+          case 2:
+            document.getElementById(eleId1).style.display = "none";
+            document.getElementById(eleId2).style.display = "block";
+            break;
+        }
+      }
+    </script>
+    <script language="javascript">
+      var handleIframeSuccess = function (id) {
+        try {
+          var frmid = "frm_" + id;
+          var frm = document.getElementById(frmid);
+          if (frm == null) {
+            return;
+          }
+          var frmdoc = frm.contentDocument || frm.contentWindow.document;
+          if (frmdoc == null) {
+            return;
+          }
+          if (frmdoc.body == null) {
+            return;
+          }
+          if (frmdoc.body.innerHTML == null) {
+            return;
+          }
+          var jsonText = frmdoc.body.innerHTML
+            .replace(/<PRE>/, "")
+            .replace(/<\/PRE>/, "");
+          jsonText = jsonText.replace(/<pre>/, "").replace(/<\/pre>/, "");
+          if (jsonText.indexOf("result") == -1) {
+            return;
+          }
+          var results = null;
+          try {
+            results = YAHOO.lang.JSON.parse(jsonText);
+          } catch (e) {
+            return;
+          }
+          if (results != null) {
+            var categoriesArray = [];
+            var taskArray = [];
+            var divSummary = document.getElementById(
+              results.result.appId + "summary"
+            );
+            var divDetail = document.getElementById(
+              results.result.appId + "detail"
+            );
+            var divDetailInnerHTML = "";
+            var divSummaryInnerHTML = "";
+            categoriesArray = results.result.categories;
+            if (results.result.detail == 1) {
+              divSummaryInnerHTML =
+                '<div class="task_contenttext_left_2"><a href="' +
+                results.result.url +
+                '" target="_blank" class="task_contenttext_system">' +
+                results.result.name +
+                "</a></div>";
+              divSummaryInnerHTML += '<div class="task_contenttext_right"> ';
+              for (var j = 0; j < categoriesArray.length; j++) {
+                divSummaryInnerHTML +=
+                  categoriesArray[j].name +
+                  '<a class="company_task_contenttext_red" href="' +
+                  categoriesArray[j].url +
+                  '" target="_blank">' +
+                  categoriesArray[j].total +
+                  "</a>件.";
+              }
+              divSummaryInnerHTML +=
+                "<a onclick=\"showDetailMsg(2,'" +
+                results.result.appId +
+                "summary" +
+                "','" +
+                results.result.appId +
+                "detail" +
+                '\')" style=\'cursor:hand\'><img src="images/list_open.gif" name="Imagelist" border="0" id="Imagelist"/></a></div>';
+
+              divDetailInnerHTML =
+                '<div class="task_contenttext_left_2"><a href="' +
+                results.result.url +
+                '" target="_blank" class="task_contenttext_system">' +
+                results.result.name +
+                "</a></span>";
+              divDetailInnerHTML += '<div class="task_contenttext_right"> ';
+              for (var m = 0; m < categoriesArray.length; m++) {
+                divDetailInnerHTML +=
+                  categoriesArray[m].name +
+                  '<a class="company_task_contenttext_red" href="' +
+                  categoriesArray[m].url +
+                  '" target="_blank">' +
+                  categoriesArray[m].total +
+                  "</a>件.";
+              }
+              divDetailInnerHTML +=
+                "<a onclick=\"showDetailMsg(1,'" +
+                results.result.appId +
+                "summary" +
+                "','" +
+                results.result.appId +
+                "detail" +
+                '\')" style=\'cursor:hand\'><img src="images/list_close.gif" name="Imagelist" border="0" id="Imagelist"/></a></div>';
+              divDetailInnerHTML += "<ul>";
+              for (var k = 0; k < categoriesArray.length; k++) {
+                taskArray = categoriesArray[k].tasks;
+                for (var l = 0; l < taskArray.length; l++) {
+                  divDetailInnerHTML +=
+                    '<li><a href="' +
+                    formUrl(taskArray[l].link) +
+                    '" class="task_contenttext_1">' +
+                    taskArray[l].title +
+                    "</a></li>";
+                }
+              }
+              divDetailInnerHTML += "</ul>";
+              divDetail.innerHTML = divDetailInnerHTML;
+              divSummary.innerHTML = divSummaryInnerHTML;
+            } else {
+              var str = '<table cellspacing="0" cellpadding="0"><tr>';
+              str +=
+                '<td><div class="task_contenttext_left_2"><a href="' +
+                formUrl(results.result.url) +
+                '" target="_blank" class="task_contenttext_system">' +
+                results.result.name +
+                "</a></div></td>";
+              str += '<td><div class="task_contenttext_right"> ';
+              if (categoriesArray)
+                for (var z = 0; z < categoriesArray.length; z++) {
+                  str +=
+                    categoriesArray[z].name +
+                    '<a class="company_task_contenttext_red" href="' +
+                    formUrl(results.result.url) +
+                    '" target="_blank">' +
+                    categoriesArray[z].total +
+                    "</a>件.";
+                }
+              str += "</div></td></tr></table>";
+              divSummary.innerHTML = str;
+            }
+          } else {
+            divSummaryInnerHTML = '<table cellspacing="0" cellpadding="0"><tr>';
+            divSummaryInnerHTML +=
+              '<td><div class="task_contenttext_left"><a href="' +
+              formUrl(appurl) +
+              '" target="_blank" class="task_contenttext_system">' +
+              appname +
+              "</a></div></td>";
+            divSummaryInnerHTML +=
+              '<td><div class="task_contenttext_right">未能获取任务信息，请与管理员联系！</div></td>';
+            //divDetail.innerHTML = divDetailInnerHTML;
+            divSummary.innerHTML = divSummaryInnerHTML;
+          }
+        } catch (e) {}
+      };
+    </script>
+    <table border="0" cellspacing="0" cellpadding="0" class="channel_bigtable">
+      <tbody>
+        <tr>
+          <td class="channel_tab_bg">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td width="30" class="task_tab_list" height="26"></td>
+                  <td class="channel_tab_text">任务中心</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table
+              width="100%"
+              border="0"
+              align="center"
+              cellpadding="0"
+              cellspacing="0"
+              style="border: 1px solid #ffffff;"
+            >
+              <tbody>
+                <tr>
+                  <td valign="top" class="company_task_topbg">
+                    <table
+                      width="447"
+                      border="0"
+                      cellspacing="0"
+                      cellpadding="0"
+                    >
+                      <tbody>
+                        <tr>
+                          <td width="23" height="25">&nbsp;</td>
+                          <td>&nbsp;</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td class="task_list" width="20">&nbsp;</td>
+                          <td>
+                            <table
+                              border="0"
+                              cellspacing="0"
+                              cellpadding="0"
+                              class="task_toptext"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td class="company_task_text1">
+                                    您有以下未办事宜!&nbsp;&nbsp;
+                                  </td>
+                                  <td>
+                                    <a
+                                      href="javascript:location.reload();"
+                                      class="company_taskbutton"
+                                      >任务刷新</a
+                                    >
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" class="company_task_contentbg">
+                    <table
+                      width="100%"
+                      border="0"
+                      cellspacing="0"
+                      cellpadding="0"
+                    >
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div id="container1" class="">
+                              <div
+                                id="CBPM_OAsummary"
+                                class="task_contenttext_dangan"
+                              ></div>
+                              <div
+                                id="CBPM_OAdetail"
+                                class="task_contenttext_dangan"
+                                style="display: none;"
+                              ></div>
+                            </div>
+                            <div id="container2" class="">
+                              <div
+                                id="CBPM_ARCHIVESsummary"
+                                class="task_contenttext_dangan"
+                              ></div>
+                              <div
+                                id="CBPM_ARCHIVESdetail"
+                                class="task_contenttext_dangan"
+                                style="display: none;"
+                              ></div>
+                            </div>
+                            <div id="container3" class="">
+                              <div
+                                id="CBPM_BCPPORTALsummary"
+                                class="task_contenttext_dangan"
+                              ></div>
+                              <div
+                                id="CBPM_BCPPORTALdetail"
+                                class="task_contenttext_dangan"
+                                style="display: none;"
+                              ></div>
+                            </div>
+                            <div id="container4" class="">
+                              <div
+                                id="CBPM_QUARKsummary"
+                                class="task_contenttext_dangan"
+                              ></div>
+                              <div
+                                id="CBPM_QUARKdetail"
+                                class="task_contenttext_dangan"
+                                style="display: none;"
+                              ></div>
+                            </div>
+                            <div id="container5" class="">
+                              <div
+                                id="CBPM_HYHRsummary"
+                                class="task_contenttext_dangan"
+                              ></div>
+                              <div
+                                id="CBPM_HYHRdetail"
+                                class="task_contenttext_dangan"
+                                style="display: none;"
+                              ></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="task_bottom_height">&nbsp;</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <script language="javascript">
+      function loadfrm(id) {
+        var frmid = "frm_" + id;
+        var frm = document.getElementById(frmid);
+        if (frm == null) {
+          return;
+        }
+        // frm.src = "detail.do?app=" + id + "&random=6";
+        frm.src = `sample_${id}.json`;
+      }
+      function closetimeoutfrm(id, appname, appurl) {
+        var frmid = "frm_" + id;
+        var frm = document.getElementById(frmid);
+        if (frm == null) {
+          return;
+        }
+        if (!frm.readyState) {
+          return;
+        }
+        if (frm.readyState == "complete") {
+          var frmdoc = frm.contentDocument || frm.contentWindow.document;
+          if (frmdoc == null) {
+            return;
+          }
+          if (frmdoc.body == null) {
+            return;
+          }
+          if (frmdoc.body.innerHTML == null) {
+            return;
+          }
+          var jsonText = frmdoc.body.innerHTML;
+          var results = null;
+          if (jsonText.indexOf('{"result') != -1) {
+            return;
+          }
+        }
+        frm.src = "about:blank";
+        var divSummary = document.getElementById(id + "summary");
+        divSummaryInnerHTML = '<table cellspacing="0" cellpadding="0"><tr>';
+        divSummaryInnerHTML +=
+          '<td><div class="task_contenttext_left"><a href="' +
+          appurl +
+          '" target="_blank" class="task_contenttext_system">' +
+          appname +
+          "</a></div></td>";
+        divSummaryInnerHTML +=
+          '<td><div class="task_contenttext_right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未能获取任务信息，请与管理员联系！</div></td></tr></table>';
+        divSummary.innerHTML = divSummaryInnerHTML;
+      }
+      var g_count = 0;
+    </script>
+
+    <iframe
+      name="frm_CBPM_OA"
+      id="frm_CBPM_OA"
+      src="./main_files/detail.html"
+      width="0"
+      height="0"
+      onload="handleIframeSuccess(&#39;CBPM_OA&#39;);"
+    ></iframe>
+    <script language="javascript">
+      setTimeout("loadfrm('CBPM_OA')", 200 * g_count);
+      setTimeout(
+        "closetimeoutfrm('CBPM_OA','OA系统','http://oa.cdyc.cbpm')",
+        10000 + 2000 * g_count
+      );
+      g_count++;
+    </script>
+
+    <iframe
+      name="frm_CBPM_ARCHIVES"
+      id="frm_CBPM_ARCHIVES"
+      src="./main_files/detail(1).html"
+      width="0"
+      height="0"
+      onload="handleIframeSuccess(&#39;CBPM_ARCHIVES&#39;);"
+    ></iframe>
+    <script language="javascript">
+      setTimeout("loadfrm('CBPM_ARCHIVES')", 200 * g_count);
+      setTimeout(
+        "closetimeoutfrm('CBPM_ARCHIVES','档案系统','http://uap.cdyc.cbpm/toolkit/archives.servlet?appId=CBPM_ARCHIVES&common=true')",
+        10000 + 2000 * g_count
+      );
+      g_count++;
+    </script>
+
+    <iframe
+      name="frm_CBPM_HYHR"
+      id="frm_CBPM_HYHR"
+      src="./main_files/detail(2).html"
+      width="0"
+      height="0"
+      onload="handleIframeSuccess(&#39;CBPM_HYHR&#39;);"
+    ></iframe>
+    <script language="javascript">
+      setTimeout("loadfrm('CBPM_HYHR')", 200 * g_count);
+      setTimeout(
+        "closetimeoutfrm('CBPM_HYHR','行业HR','http://uap.cdyc.cbpm/toolkit/hr.servlet?appId=CBPM_HYHR')",
+        10000 + 2000 * g_count
+      );
+      g_count++;
+    </script>
+
+    <iframe
+      name="frm_CBPM_BCPPORTAL"
+      id="frm_CBPM_BCPPORTAL"
+      src="./main_files/detail(3).html"
+      width="0"
+      height="0"
+      onload="handleIframeSuccess(&#39;CBPM_BCPPORTAL&#39;);"
+    ></iframe>
+    <script language="javascript">
+      setTimeout("loadfrm('CBPM_BCPPORTAL')", 200 * g_count);
+      setTimeout(
+        "closetimeoutfrm('CBPM_BCPPORTAL','协同系统','http://uap.cdyc.cbpm/toolkit/bcpportal.servlet?appId=CBPM_BCPPORTAL')",
+        10000 + 2000 * g_count
+      );
+      g_count++;
+    </script>
+
+    <iframe
+      name="frm_CBPM_QUARK"
+      id="frm_CBPM_QUARK"
+      src="./main_files/detail(4).html"
+      width="0"
+      height="0"
+      onload="handleIframeSuccess(&#39;CBPM_QUARK&#39;);"
+    ></iframe>
+    <script language="javascript">
+      setTimeout("loadfrm('CBPM_QUARK')", 200 * g_count);
+      setTimeout(
+        "closetimeoutfrm('CBPM_QUARK','邮件系统','http://uap.cdyc.cbpm/toolkit/mail.servlet?appId=CBPM_QUARK')",
+        10000 + 2000 * g_count
+      );
+      g_count++;
+    </script>
+  </body>
+</html>

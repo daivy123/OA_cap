@@ -1,0 +1,17 @@
+{
+  "result": {
+    "detail": "0",
+    "appId": "CBPM_QUARK",
+    "name": "邮件系统",
+    "categories": [
+      {
+        "total": "0",
+        "name": "新邮件",
+        "code": "1",
+        "tasks": [],
+        "url": "http://quark.cdyc.cbpm/cgi-bin/index.cgi?a=b"
+      }
+    ],
+    "url": "http://uap.cdyc.cbpm/toolkit/mail.servlet?appId=CBPM_QUARK"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "result": {
+    "detail": "0",
+    "appId": "CBPM_OA",
+    "name": "OA系统",
+    "categories": [
+      {
+        "total": "0",
+        "name": "待办任务",
+        "code": "1",
+        "tasks": [],
+        "url": "http://oa.cdyc.cbpm"
+      }
+    ],
+    "url": "http://oa.cdyc.cbpm"
+  }
+}

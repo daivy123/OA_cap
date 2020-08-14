@@ -1,0 +1,26 @@
+{
+  "result": {
+    "detail": "0",
+    "appId": "CBPM_BCPPORTAL",
+    "name": "协同系统",
+    "categories": [
+      {
+        "total": "1",
+        "name": "待办",
+        "code": "1",
+        "tasks": [
+          {
+            "id": "4937315",
+            "pubDate": "Thu Aug 13 10:00:08 CST 2020",
+            "title": "标题",
+            "level": "1",
+            "link": "1"
+          }
+        ],
+        "url": ""
+      },
+      { "total": "0", "name": "消息", "code": "2", "tasks": [], "url": "" }
+    ],
+    "url": "http://uap.cdyc.cbpm/toolkit/bcpportal.servlet?appId=CBPM_BCPPORTAL"
+  }
+}
