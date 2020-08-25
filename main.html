@@ -80,10 +80,15 @@
           if (frmdoc.body.innerHTML == null) {
             return;
           }
+          // console.info(1, frmdoc.body.innerHTML);
           var jsonText = frmdoc.body.innerHTML
             .replace(/<PRE>/, "")
             .replace(/<\/PRE>/, "");
-          jsonText = jsonText.replace(/<pre>/, "").replace(/<\/pre>/, "");
+          jsonText = jsonText
+            .replace(/<pre (\w.*)>/, "")
+            .replace(/<\/pre>/, "")
+            .replace(/<div [\w|\W]*<\/div>$/, "");
+          // console.info(2, jsonText);
           if (jsonText.indexOf("result") == -1) {
             return;
           }
@@ -91,6 +96,7 @@
           try {
             results = YAHOO.lang.JSON.parse(jsonText);
           } catch (e) {
+            console.info("error", e);
             return;
           }
           if (results != null) {
@@ -361,6 +367,7 @@
     </table>
     <script language="javascript">
       function loadfrm(id) {
+        console.info(`loadfrm(${id})`);
         var frmid = "frm_" + id;
         var frm = document.getElementById(frmid);
         if (frm == null) {
@@ -370,31 +377,35 @@
         frm.src = `sample_${id}.json`;
       }
       function closetimeoutfrm(id, appname, appurl) {
+        console.info(`closetimeoutfrm(${id},${appname},${appurl})`);
         var frmid = "frm_" + id;
         var frm = document.getElementById(frmid);
         if (frm == null) {
           return;
         }
-        if (!frm.readyState) {
+        // if (!frm.readyState) {
+        //   return;
+        // }
+        // if (frm.readyState == "complete") {
+
+        var frmdoc = frm.contentDocument || frm.contentWindow.document;
+        // console.info("frmdoc", frmdoc);
+        if (frmdoc == null) {
           return;
         }
-        if (frm.readyState == "complete") {
-          var frmdoc = frm.contentDocument || frm.contentWindow.document;
-          if (frmdoc == null) {
-            return;
-          }
-          if (frmdoc.body == null) {
-            return;
-          }
-          if (frmdoc.body.innerHTML == null) {
-            return;
-          }
-          var jsonText = frmdoc.body.innerHTML;
-          var results = null;
-          if (jsonText.indexOf('{"result') != -1) {
-            return;
-          }
+        if (frmdoc.body == null) {
+          return;
         }
+        if (frmdoc.body.innerHTML == null) {
+          return;
+        }
+        var jsonText = frmdoc.body.innerHTML;
+        // console.info("jsonText", jsonText);
+        var results = null;
+        if (jsonText.indexOf('"result":') != -1) {
+          return;
+        }
+        // }
         frm.src = "about:blank";
         var divSummary = document.getElementById(id + "summary");
         divSummaryInnerHTML = '<table cellspacing="0" cellpadding="0"><tr>';
@@ -407,7 +418,9 @@
         divSummaryInnerHTML +=
           '<td><div class="task_contenttext_right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未能获取任务信息，请与管理员联系！</div></td></tr></table>';
         divSummary.innerHTML = divSummaryInnerHTML;
+        // console.info(id, divSummaryInnerHTML);
       }
+      // TODO g_count 的用途？
       var g_count = 0;
     </script>
 
@@ -417,14 +430,16 @@
       src="./main_files/detail.html"
       width="0"
       height="0"
-      onload="handleIframeSuccess(&#39;CBPM_OA&#39;);"
+      onload="handleIframeSuccess('CBPM_OA');"
     ></iframe>
     <script language="javascript">
-      setTimeout("loadfrm('CBPM_OA')", 200 * g_count);
-      setTimeout(
-        "closetimeoutfrm('CBPM_OA','OA系统','http://oa.cdyc.cbpm')",
-        10000 + 2000 * g_count
-      );
+      // console.info("g_count = ", g_count);
+      setTimeout(function () {
+        loadfrm("CBPM_OA");
+      }, 200 * g_count);
+      setTimeout(function () {
+        closetimeoutfrm("CBPM_OA", "OA系统", "http://oa.cdyc.cbpm");
+      }, 10000 + 2000 * g_count);
       g_count++;
     </script>
 
@@ -434,7 +449,7 @@
       src="./main_files/detail(1).html"
       width="0"
       height="0"
-      onload="handleIframeSuccess(&#39;CBPM_ARCHIVES&#39;);"
+      onload="handleIframeSuccess('CBPM_ARCHIVES');"
     ></iframe>
     <script language="javascript">
       setTimeout("loadfrm('CBPM_ARCHIVES')", 200 * g_count);
@@ -451,7 +466,7 @@
       src="./main_files/detail(2).html"
       width="0"
       height="0"
-      onload="handleIframeSuccess(&#39;CBPM_HYHR&#39;);"
+      onload="handleIframeSuccess('CBPM_HYHR');"
     ></iframe>
     <script language="javascript">
       setTimeout("loadfrm('CBPM_HYHR')", 200 * g_count);
@@ -468,7 +483,7 @@
       src="./main_files/detail(3).html"
       width="0"
       height="0"
-      onload="handleIframeSuccess(&#39;CBPM_BCPPORTAL&#39;);"
+      onload="handleIframeSuccess('CBPM_BCPPORTAL');"
     ></iframe>
     <script language="javascript">
       setTimeout("loadfrm('CBPM_BCPPORTAL')", 200 * g_count);
@@ -485,7 +500,7 @@
       src="./main_files/detail(4).html"
       width="0"
       height="0"
-      onload="handleIframeSuccess(&#39;CBPM_QUARK&#39;);"
+      onload="handleIframeSuccess('CBPM_QUARK');"
     ></iframe>
     <script language="javascript">
       setTimeout("loadfrm('CBPM_QUARK')", 200 * g_count);
