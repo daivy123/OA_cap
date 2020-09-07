@@ -5,63 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="refresh" content="900" />
-    <link type="text/css" rel="stylesheet" href="./main_files/css.css" />
+    <!-- <link type="text/css" rel="stylesheet" href="./main_files/css.css" /> -->
     <link type="text/css" rel="stylesheet" href="./main_files/css(1).css" />
-    <script src="./main_files/yahoo-min.js.下载"></script>
-    <script src="./main_files/event-min.js.下载"></script>
-    <script src="./main_files/connection-min.js.下载"></script>
-    <script src="./main_files/json-min.js.下载"></script>
+    <script src="./main_files/jquery_1_9_1_min.js"></script>
+    <script src="./index.js"></script>
+    <script>
+      $(function () {
+        $("#container")[0].innerHTML = subs();
+        handle();
+        // console.info(subs());
+      });
+    </script>
     <title>main</title>
   </head>
   <body>
-    <script language="javascript">
-      setInterval("window.location.reload()", 1200000);
-    </script>
-    <script language="javascript">
-      var tokenParam = "tokenId=" + escape(readCookie("iPlanetDirectoryPro"));
-      var authurl =
-        tokenParam +
-        "&authwsdl=" +
-        escape("http://uap.cdyc.cbpm/eeip_iam/services/validate");
-      function formUrl(url) {
-        var newurl;
-        if (url.indexOf("?") > 0) {
-          newurl = url + "&" + authurl;
-        } else {
-          newurl = url + "?" + authurl;
-        }
-        return newurl;
-      }
-      function readCookie(name) {
-        var cookieValue = "";
-        var search = name + "=";
-        if (document.cookie.length > 0) {
-          offset = document.cookie.indexOf(search);
-          if (offset != -1) {
-            offset += search.length;
-            end = document.cookie.indexOf(";", offset);
-            if (end == -1) end = document.cookie.length;
-            cookieValue = unescape(document.cookie.substring(offset, end));
-          }
-        }
-        return cookieValue;
-      }
-      function showDetailMsg(i, eleId1, eleId2) {
-        selectTab(i, eleId1, eleId2);
-      }
-      function selectTab(i, eleId1, eleId2) {
-        switch (i) {
-          case 1:
-            document.getElementById(eleId1).style.display = "block";
-            document.getElementById(eleId2).style.display = "none";
-            break;
-          case 2:
-            document.getElementById(eleId1).style.display = "none";
-            document.getElementById(eleId2).style.display = "block";
-            break;
-        }
-      }
-    </script>
+    <script language="javascript"></script>
     <script language="javascript">
       var handleIframeSuccess = function (id) {
         try {
@@ -236,7 +194,7 @@
               align="center"
               cellpadding="0"
               cellspacing="0"
-              style="border: 1px solid #ffffff;"
+              style="border: 1px solid #ffffff"
             >
               <tbody>
                 <tr>
@@ -294,63 +252,7 @@
                     >
                       <tbody>
                         <tr>
-                          <td>
-                            <div id="container1" class="">
-                              <div
-                                id="CBPM_OAsummary"
-                                class="task_contenttext_dangan"
-                              ></div>
-                              <div
-                                id="CBPM_OAdetail"
-                                class="task_contenttext_dangan"
-                                style="display: none;"
-                              ></div>
-                            </div>
-                            <div id="container2" class="">
-                              <div
-                                id="CBPM_ARCHIVESsummary"
-                                class="task_contenttext_dangan"
-                              ></div>
-                              <div
-                                id="CBPM_ARCHIVESdetail"
-                                class="task_contenttext_dangan"
-                                style="display: none;"
-                              ></div>
-                            </div>
-                            <div id="container3" class="">
-                              <div
-                                id="CBPM_BCPPORTALsummary"
-                                class="task_contenttext_dangan"
-                              ></div>
-                              <div
-                                id="CBPM_BCPPORTALdetail"
-                                class="task_contenttext_dangan"
-                                style="display: none;"
-                              ></div>
-                            </div>
-                            <div id="container4" class="">
-                              <div
-                                id="CBPM_QUARKsummary"
-                                class="task_contenttext_dangan"
-                              ></div>
-                              <div
-                                id="CBPM_QUARKdetail"
-                                class="task_contenttext_dangan"
-                                style="display: none;"
-                              ></div>
-                            </div>
-                            <div id="container5" class="">
-                              <div
-                                id="CBPM_HYHRsummary"
-                                class="task_contenttext_dangan"
-                              ></div>
-                              <div
-                                id="CBPM_HYHRdetail"
-                                class="task_contenttext_dangan"
-                                style="display: none;"
-                              ></div>
-                            </div>
-                          </td>
+                          <td id="container"></td>
                         </tr>
                         <tr>
                           <td class="task_bottom_height">&nbsp;</td>
@@ -422,93 +324,6 @@
       }
       // TODO g_count 的用途？
       var g_count = 0;
-    </script>
-
-    <iframe
-      name="frm_CBPM_OA"
-      id="frm_CBPM_OA"
-      src="./main_files/detail.html"
-      width="0"
-      height="0"
-      onload="handleIframeSuccess('CBPM_OA');"
-    ></iframe>
-    <script language="javascript">
-      // console.info("g_count = ", g_count);
-      setTimeout(function () {
-        loadfrm("CBPM_OA");
-      }, 200 * g_count);
-      setTimeout(function () {
-        closetimeoutfrm("CBPM_OA", "OA系统", "http://oa.cdyc.cbpm");
-      }, 10000 + 2000 * g_count);
-      g_count++;
-    </script>
-
-    <iframe
-      name="frm_CBPM_ARCHIVES"
-      id="frm_CBPM_ARCHIVES"
-      src="./main_files/detail(1).html"
-      width="0"
-      height="0"
-      onload="handleIframeSuccess('CBPM_ARCHIVES');"
-    ></iframe>
-    <script language="javascript">
-      setTimeout("loadfrm('CBPM_ARCHIVES')", 200 * g_count);
-      setTimeout(
-        "closetimeoutfrm('CBPM_ARCHIVES','档案系统','http://uap.cdyc.cbpm/toolkit/archives.servlet?appId=CBPM_ARCHIVES&common=true')",
-        10000 + 2000 * g_count
-      );
-      g_count++;
-    </script>
-
-    <iframe
-      name="frm_CBPM_HYHR"
-      id="frm_CBPM_HYHR"
-      src="./main_files/detail(2).html"
-      width="0"
-      height="0"
-      onload="handleIframeSuccess('CBPM_HYHR');"
-    ></iframe>
-    <script language="javascript">
-      setTimeout("loadfrm('CBPM_HYHR')", 200 * g_count);
-      setTimeout(
-        "closetimeoutfrm('CBPM_HYHR','行业HR','http://uap.cdyc.cbpm/toolkit/hr.servlet?appId=CBPM_HYHR')",
-        10000 + 2000 * g_count
-      );
-      g_count++;
-    </script>
-
-    <iframe
-      name="frm_CBPM_BCPPORTAL"
-      id="frm_CBPM_BCPPORTAL"
-      src="./main_files/detail(3).html"
-      width="0"
-      height="0"
-      onload="handleIframeSuccess('CBPM_BCPPORTAL');"
-    ></iframe>
-    <script language="javascript">
-      setTimeout("loadfrm('CBPM_BCPPORTAL')", 200 * g_count);
-      setTimeout(
-        "closetimeoutfrm('CBPM_BCPPORTAL','协同系统','http://uap.cdyc.cbpm/toolkit/bcpportal.servlet?appId=CBPM_BCPPORTAL')",
-        10000 + 2000 * g_count
-      );
-      g_count++;
-    </script>
-
-    <iframe
-      name="frm_CBPM_QUARK"
-      id="frm_CBPM_QUARK"
-      src="./main_files/detail(4).html"
-      width="0"
-      height="0"
-      onload="handleIframeSuccess('CBPM_QUARK');"
-    ></iframe>
-    <script language="javascript">
-      setTimeout("loadfrm('CBPM_QUARK')", 200 * g_count);
-      setTimeout(
-        "closetimeoutfrm('CBPM_QUARK','邮件系统','http://uap.cdyc.cbpm/toolkit/mail.servlet?appId=CBPM_QUARK')",
-        10000 + 2000 * g_count
-      );
-      g_count++;
     </script>
   </body>
 </html>
