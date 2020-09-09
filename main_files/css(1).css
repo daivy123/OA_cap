@@ -43,6 +43,7 @@ a.company_taskbutton {
   font-size: 13px;
   color: #0350A8;
   text-decoration: none;
+  border: 1px solid #6AB4E3;
   background: url(../images/task_refresh.jpg) no-repeat;
 }
 
@@ -199,4 +200,12 @@ td.task_tab_list {
 
 span.num {
   color: #E50005;
+}
+
+a.num {
+  text-decoration: none;
+}
+
+a.num:hover {
+  text-decoration: underline;
 }

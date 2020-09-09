@@ -11,7 +11,8 @@
     <script src="./index.js"></script>
     <script>
       $(function () {
-        $("#container")[0].innerHTML = subs();
+        var txt = subs();
+        $("#container")[0].innerHTML = txt;
         handle();
         // console.info(subs());
       });
@@ -228,7 +229,7 @@
                                   </td>
                                   <td>
                                     <a
-                                      href="javascript:location.reload();"
+                                      href="javascript:handle();"
                                       class="company_taskbutton"
                                       >任务刷新</a
                                     >
@@ -269,17 +270,17 @@
     </table>
     <script language="javascript">
       function loadfrm(id) {
-        console.info(`loadfrm(${id})`);
+        // console.info(`loadfrm(${id})`);
         var frmid = "frm_" + id;
         var frm = document.getElementById(frmid);
         if (frm == null) {
           return;
         }
         // frm.src = "detail.do?app=" + id + "&random=6";
-        frm.src = `sample_${id}.json`;
+        frm.src = "sample_" + id + ".json";
       }
       function closetimeoutfrm(id, appname, appurl) {
-        console.info(`closetimeoutfrm(${id},${appname},${appurl})`);
+        // console.info(`closetimeoutfrm(${id},${appname},${appurl})`);
         var frmid = "frm_" + id;
         var frm = document.getElementById(frmid);
         if (frm == null) {
